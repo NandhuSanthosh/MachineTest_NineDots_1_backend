@@ -15,7 +15,6 @@ exports.getFiles = async function(req, res, next) {
         }
         else{
             data = await fileEntityModel.findOne({name: "root"}).populate('files')
-            console.log(data)
         }
 
         res.send({

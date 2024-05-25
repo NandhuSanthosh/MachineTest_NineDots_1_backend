@@ -14,6 +14,10 @@ const {cloudinaryConfig} = require('./configs/cloudinary')
 
 const app = express();
 
+app.use( (req, res, next) => {
+  console.log(req.get('origin'))
+  next();
+})
 
 const corsOptions = {
   origin: ['http://localhost:3000', 'http://test.nandhu.shop', "https://test.nandhu.shop"], 
