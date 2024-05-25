@@ -16,7 +16,7 @@ const app = express();
 
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://nandhu.shop', "https://nandhu.shop"], 
+  origin: ['http://localhost:3000', 'http://test.nandhu.shop', "https://test.nandhu.shop"], 
   optionsSuccessStatus: 200,
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
