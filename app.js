@@ -15,7 +15,16 @@ const {cloudinaryConfig} = require('./configs/cloudinary')
 const app = express();
 
 
-app.use(cors()); 
+const corsOptions = {
+  origin: ['http://localhost:3000', 'http://nandhu.shop', "https://nandhu.shop"], 
+  optionsSuccessStatus: 200,
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+
 app.use(express.json()); 
 app.use('/uploads', express.static('uploads')); 
 
@@ -43,5 +52,5 @@ mongoConfig().then( () => {
 
 // Start the server
 app.listen(process.env.PORT, () => {
-  console.log(`Server started on port ${process.env.PORT}`)
+  console.log(`Server started on port ${process.env.PORT}, cors updated`)
 })
