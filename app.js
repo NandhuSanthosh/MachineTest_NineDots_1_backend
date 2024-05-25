@@ -8,6 +8,8 @@ const fs = require('fs')
 const fileRouter = require('./routers/fileRouter');
 const mongoConfig  = require('./configs/mongo');
 const { errorHandler } = require('./middleware/errorMiddleware');
+const folderConfig = require('./configs/folderConfig');
+const {cloudinaryConfig} = require('./configs/cloudinary')
 
 
 const app = express();
@@ -26,6 +28,9 @@ app.use(bodyParser.raw({
 
 app.use('/', fileRouter)
 app.use(errorHandler)
+
+folderConfig();
+cloudinaryConfig();
 
 
 // connecting to mongodb

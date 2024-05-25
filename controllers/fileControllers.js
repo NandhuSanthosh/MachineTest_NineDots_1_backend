@@ -1,3 +1,4 @@
+const { uploadFile } = require("../configs/cloudinary");
 const { UnprocessableEntity } = require("../middleware/errorMiddleware");
 const fileEntityModel = require("../models/FileEntity");
 
@@ -80,6 +81,8 @@ exports.uploadFiles = async function (req, res, next) {
 
         const buffer = Buffer.from(data, 'base64');
 
+
+
         fs.appendFileSync('./temp/'+name, buffer);
 
         if(lastChunk) {
@@ -92,6 +95,9 @@ exports.uploadFiles = async function (req, res, next) {
             else {
                 parentDoc = await fileEntityModel.findOne({name: "root"})
             }
+            
+            // fs.renameSync('./temp/'+name, "./uploads/" + finalFileName);
+            const result = await uploadFile('./temp/' + name);
 
             let finalFileName = ""
             if(id) finalFileName += id + "_";
@@ -100,7 +106,7 @@ exports.uploadFiles = async function (req, res, next) {
 
             const newFile = await fileEntityModel.create({
                 name, 
-                fileName: finalFileName, 
+                fileName: result.secure_url, 
                 parent: parentDoc._id, 
             })
 
@@ -109,7 +115,6 @@ exports.uploadFiles = async function (req, res, next) {
 
             console.log(parentDoc, "parent doc")
 
-            fs.renameSync('./temp/'+name, "./uploads/" + finalFileName);
             res.json({ message: 'File uploaded', name, newFile });
 
         } else {
@@ -123,3 +128,6 @@ exports.uploadFiles = async function (req, res, next) {
         next(error)
     }
 }
+
+
+
